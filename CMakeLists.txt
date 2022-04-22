@@ -11,6 +11,7 @@ set(LIBRARY_OUTPUT_PATH ./build)
 include_directories(${YUOR_ARMA_DIR}/armadillo-10.8.2/include/ ./include)
 #on Windows
 link_directories(${YUOR_ARMA_DIR}/armadillo-10.8.2/examples/lib_win64/)
+#
 add_library(sci ./src/sci_arma.cpp)
 add_executable(sci_arma test.cpp)
 target_link_libraries(sci_arma libopenblas.lib sci)
