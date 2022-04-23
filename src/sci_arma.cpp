@@ -18,7 +18,7 @@ x_fval sci_arma::fmin(const obj_fun& f, vec& x0)
         d[i]=E.col(i);
     }
     int j=1;
-    double alpha=1.2, beta=-0.8, eps=0.0001;
+    double alpha=1.05, beta=-0.95, eps=0.00001;
     vec y1=x, y=y1, delta0= ones(nvar,1),
     lambda= zeros(nvar,1), delta=delta0;
 
@@ -124,9 +124,10 @@ x_fval sci_arma::fmin(const obj_fun& f, vec& x0)
 }
 
 
+
 //fmin with linear constraints
-//'interior-point'
-x_fval sci_arma::fmincon(const obj_fun &f, vec &x0, mat &Aeq, mat &beq)
+//exterior-point
+x_fval sci_arma::fmincon(const obj_fun &f, vec &x0, mat &A, mat &b)
 {
     auto nvar=x0.n_rows;
     try{
@@ -137,7 +138,72 @@ x_fval sci_arma::fmincon(const obj_fun &f, vec &x0, mat &Aeq, mat &beq)
         std::cerr<<e.what()<<std::endl;
         std::terminate();
     }
-    umat c=Aeq*x0-beq < zeros(nvar,1);
+    umat c=A*x0-b < zeros(nvar,1);
+    int flag=0;
+    for(auto i=0;i<nvar;i++)
+    {
+        if(c(i,0)==0)
+            flag++;
+    }
+    try{
+        if(flag>0)
+            throw std::logic_error("ERROR: x0 is not in the constraints, or on the boundary.");
+    }
+    catch(std::exception& e){
+        std::cerr<<e.what()<<std::endl;
+        std::terminate();
+    }
+    double delta=1, C=1.1, eps=0.00001;
+    auto x_=x0;
+    auto P=[&](vec& x)->double {
+        vec x1=b-A*x;
+        double B=0;
+        for(auto i=0;i<nvar;i++)
+        {
+            double temp=std::max(0.0,-x1(i));
+            B+=temp*temp;
+        }
+        return delta*B;
+    };
+    while (true)
+    {
+        auto g=[&](vec& x)-> double {
+            return f(x) + P(x);
+        };
+        auto result_=fmin(g,x_);
+        x_=result_.x;
+        if(P(x_) < eps)
+        {
+            x_fval result;
+            result.x=x_;
+            result.fval=f(x_);
+            return result;
+        }
+        else
+        {
+            delta*=C;
+        }
+    }
+}
+
+
+
+//fmin with linear constraints
+//'interior-point'
+//this method is not well-implemented
+/*
+x_fval sci_arma::fmincon_i(const obj_fun &f, vec &x0, mat &A, mat &b)
+{
+    auto nvar=x0.n_rows;
+    try{
+        if((int)x0.n_cols!=1)
+            throw std::logic_error("ERROR: x0 must be a column vector.");
+    }
+    catch(std::exception& e){
+        std::cerr<<e.what()<<std::endl;
+        std::terminate();
+    }
+    umat c=A*x0-b < zeros(nvar,1);
     int flag=0;
     for(auto i=0;i<nvar;i++)
     {
@@ -152,11 +218,27 @@ x_fval sci_arma::fmincon(const obj_fun &f, vec &x0, mat &Aeq, mat &beq)
         std::cerr<<e.what()<<std::endl;
         std::terminate();
     }
-    auto g=[&](vec& x)-> double {
-        return f(x)+1/sum((Aeq*x-beq).t()*(Aeq*x-beq));
-    };
-    x_fval result;
-    result.x=fmin(g,x0).x;
-    result.fval=f(result.x);
-    return result;
+    double r=1, beta=0.9, eps=0.0001;
+    auto x_=x0;
+    while (true)
+    {
+        auto g=[&](vec& x)-> double {
+            return f(x)+r*std::abs(sum(ones(nvar,1)/(b-A*x)));
+        };
+        auto result_=fmin(g,x_);
+        x_=result_.x;
+        double temp=sum(ones(nvar,1)/(b-A*x_));
+        if(r*std::abs(temp)<eps)
+        {
+            x_fval result;
+            result.x=x_;
+            result.fval=f(x_);
+            return result;
+        }
+        else
+        {
+            r=beta*r;
+        }
+    }
 }
+*/
