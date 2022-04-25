@@ -1,7 +1,7 @@
 # Cpp-fmincon-based-on-armadillo
 An easy optimization C++ lib based on armadillo. It just implements one of the frequently used function ```fmincon()```.
 Example:
-'''c++
+```c++
 #include <iostream>
 #include <cmath>
 #include "sci_arma.h"
@@ -54,4 +54,4 @@ int main() {
              <<result4.x<<"min:"<<endl<<"  "<<result4.fval<<endl;
     return 0;
 }
-'''
+```
