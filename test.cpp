@@ -34,8 +34,7 @@ int main() {
     };
 
     //optimization with mixed constraints
-    //para '1' tells that there is only one non-linear constraint
-    auto result4= sci_arma::fmincon(f, x0, A, b, Aeq, beq, c, 1);
+    auto result4= sci_arma::fmincon(f, x0, A, b, Aeq, beq, c);
 
     //output
     std::cout<<"empty constraints:" <<endl<<"local solution: "<<endl
