@@ -15,7 +15,7 @@ int main() {
     vec x0= zeros(2,1);
 
     //optimization with no constraints
-    auto result1=sci_arma::fmin(f,x0);
+    auto result1= sci_arma::rosenbrock(f, x0);
 
     //define linear constraints Ax<=b
     mat A={{1,1},{2,3}};
@@ -38,7 +38,10 @@ int main() {
     };
 
     //optimization with mixed constraints
-    auto result4= sci_arma::fmincon(f, x0, A, b, Aeq, beq, c);
+    //set options::algorithm to Rosenbrock
+    options opt;
+    opt.algo=Rosenbrock;
+    auto result4= sci_arma::fmincon(f, x0, A, b, Aeq, beq, c, opt);
 
     //output
     std::cout<<"empty constraints:" <<endl<<"local solution: "<<endl
