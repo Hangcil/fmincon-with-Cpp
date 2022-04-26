@@ -38,7 +38,7 @@ int main() {
     };
 
     //optimization with mixed constraints
-    //set options::algorithm to Rosenbrock
+    //set options::algorithm from default(Powell) to Rosenbrock
     options opt;
     opt.algo=Rosenbrock;
     auto result4= sci_arma::fmincon(f, x0, A, b, Aeq, beq, c, opt);
