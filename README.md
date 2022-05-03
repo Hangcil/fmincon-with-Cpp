@@ -1,9 +1,9 @@
 # function fmincon() based on armadillo
 A part of C++ optimization lib based on armadillo. It just implements one of the frequently used function ```fmincon()```.
 # algorithms
-1. BFGS 
+1. BFGS (default when constraints empty)
 2. Powell
-3. Powell-modified (Sargent form)
+3. Powell-modified (Sargent form) 
 4. Rosenbrock
 5. exterior-point (when there is constraints)
 # Example:
