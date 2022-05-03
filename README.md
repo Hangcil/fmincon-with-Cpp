@@ -1,5 +1,6 @@
 # function fmincon() based on armadillo
-It's a part of C++ optimization lib based on armadillo. It just implements one of the frequently used functions ```fmincon()```.
+This repository is based on C++ numerical lib [armadillo](http://arma.sourceforge.net/), and implements one of the frequently used functions ```fmincon()```.
+It can be a choosable alternative for part of optimization needs.
 # algorithms
 1. BFGS (default when constraint is empty)
 2. Powell
