@@ -1,4 +1,4 @@
-# Cpp-fmincon-based-on-armadillo
+# fmincon-based-on-armadillo
 A part of C++ optimization lib based on armadillo. It just implements one of the frequently used function ```fmincon()```.
 # algorithms
 1. BFGS 
