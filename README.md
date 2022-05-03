@@ -5,7 +5,7 @@ A part of C++ optimization lib based on armadillo. It just implements one of the
 2. Powell
 3. Powell-modified (Sargent form) 
 4. Rosenbrock
-5. exterior-point (available when there is constraint)
+5. exterior-point (default when there is constraint)
 # Example:
 ```c++
 #include <iostream>
