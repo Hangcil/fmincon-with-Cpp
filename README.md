@@ -5,7 +5,7 @@ A part of C++ optimization lib based on armadillo. It just implements one of the
 2. Powell
 3. Powell_modified
 4. Rosenbrock
-Example:
+# Example:
 ```c++
 #include <iostream>
 #include <cmath>
