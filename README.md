@@ -1,10 +1,10 @@
 # Cpp-fmincon-based-on-armadillo
-An optimization C++ lib based on armadillo. It just implements one of the frequently used function ```fmincon()```.
+A part of C++ optimization lib based on armadillo. It just implements one of the frequently used function ```fmincon()```.
 # algorithms
-## BFGS
-## Powell
-## Powell_modified
-## Rosenbrock
+1. BFGS
+2. Powell
+3. Powell_modified
+4. Rosenbrock
 Example:
 ```c++
 #include <iostream>
