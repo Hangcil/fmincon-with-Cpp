@@ -1,4 +1,4 @@
-# function fmincon() based on armadillo
+# function fmincon() with C++
 This repository is based on C++ numerical lib [armadillo](http://arma.sourceforge.net/), and implements one of the frequently used functions ```fmincon()```.
 It can be a choosable alternative for part of optimization needs.
 # algorithms
