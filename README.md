@@ -3,9 +3,9 @@ A part of C++ optimization lib based on armadillo. It just implements one of the
 # algorithms
 1. BFGS 
 2. Powell
-3. Powell-modified(Sargent from)
+3. Powell-modified (Sargent form)
 4. Rosenbrock
-5. exterior-point(when there is constraints)
+5. exterior-point (when there is constraints)
 # Example:
 ```c++
 #include <iostream>
