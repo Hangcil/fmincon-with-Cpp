@@ -23,7 +23,7 @@ int main() {
     //define a start point
     vec x0= {1,1,1,1};
 
-    //optimization with no constraints
+    //optimization without constraints
     auto result1= sci_arma::fmincon(f, x0);
 
     //define linear constraints Ax<=b
