@@ -8,7 +8,7 @@ It can be a choosable alternative for part of optimization needs.
 4. Rosenbrock
 5. exterior-point (default when there is constraint)
 # Examples:
-## gradient not given
+## when gradient is not given
 ```c++
 #include <iostream>
 #include <cmath>
@@ -63,7 +63,7 @@ int main() {
     return 0;
 }
 ```
-## or gradient given
+## or when gradient is given
 ```c++
 #include <iostream>
 #include <cmath>
