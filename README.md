@@ -7,7 +7,8 @@ It can be a choosable alternative for part of optimization needs.
 3. Powell-modified (Sargent form) 
 4. Rosenbrock
 5. exterior-point (default when there is constraint)
-# Example:
+# Examples:
+## when the gradient not given
 ```c++
 #include <iostream>
 #include <cmath>
