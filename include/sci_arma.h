@@ -67,7 +67,7 @@ protected:
     static vec line_search(const obj_fun& f, vec& a, vec& b);
     static std::vector<vec> include_min(const obj_fun& f, vec& x0, vec& dir);
 
-    //the following two functions implement BFGS method
+    //the following three functions implement BFGS method
     static vec gra(const obj_fun& f, vec& pos);
     static double line_search_imprecise(const obj_fun& f, const gradient& g, vec& x0, vec& dir);
     static x_fval bfgs(const obj_fun& f, vec& x0, const options& opt);
