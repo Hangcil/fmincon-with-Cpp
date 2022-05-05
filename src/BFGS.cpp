@@ -84,12 +84,14 @@ x_fval sci_arma::bfgs(const obj_fun &f, vec &x0, const options& opt)
         ite++;
         mat H= eye(nvar,nvar);
         vec g;
-        if(!opt.enable_self_defined_gra) { g= gra(f, x1);}
-        else{g= opt.gra(x1);}
-        for(auto k=0;k<nvar-1;k++)
+        if(!opt.enable_self_defined_gra)
+        { g= gra(f, x1);}
+        else
+        {g= opt.gra(x1);}
+        for(auto k=0;k<nvar;k++)
         {
             vec d=-H*g;
-            double lambda=0;
+            double lambda;
             if(!opt.enable_self_defined_gra)
             {
                 auto range= include_min(f, x1,d);
