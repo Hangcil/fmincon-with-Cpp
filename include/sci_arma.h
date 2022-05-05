@@ -20,10 +20,11 @@ struct x_fval
 {
 public:
     vec x;
-    double fval;
-    bool if_forced_terminated;
+    double fval=0;
+    bool if_forced_terminated= false;
     std::string algorithm;
-    long long ite_times;
+    std::string warning;
+    long long ite_times=0;
     friend std::ostream& operator<< (std::ostream& out, x_fval& result);
 };
 
@@ -87,6 +88,8 @@ public:
 
 inline std::ostream& operator<< (std::ostream& out, x_fval& result)
 {
+    if(!result.warning.empty())
+        cout<<"warning: "<<endl<<"   "<<result.warning<<endl;
     cout<<"local minimal: "<<endl<<result.x
     <<"value:"<<endl<<"   "<<result.fval<<endl
     <<"algorithm:"<<endl<<"   "<<result.algorithm<<endl
