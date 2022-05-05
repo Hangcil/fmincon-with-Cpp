@@ -53,10 +53,8 @@ x_fval sci_arma::fmincon(const obj_fun &f, vec &x0, mat &A, mat &b, const option
         { result_= powell(g, x_,opt);}
         else if(opt.algo == Rosenbrock)
         { result_= rosenbrock(g, x_, opt);}
-        else if(opt.algo == Powell_modified ||opt.algo == preset)
+        else if(opt.algo == Powell_modified ||opt.algo == preset ||opt.algo == BFGS)
         { result_= powell_m(g, x_,opt);}
-        else if(opt.algo == BFGS)
-        { result_= bfgs(g, x_, opt);}
         x_=result_.x;
         if(P(x_) <= eps || ite>=opt.max_ite)
         {
@@ -70,10 +68,10 @@ x_fval sci_arma::fmincon(const obj_fun &f, vec &x0, mat &A, mat &b, const option
             { result.algorithm="exterior-point_Powell";}
             else if(opt.algo == Rosenbrock)
             { result.algorithm="exterior-point_Rosenbrock";}
-            else if(opt.algo == Powell_modified ||opt.algo == preset)
+            else if(opt.algo == Powell_modified ||opt.algo == preset ||opt.algo == BFGS)
             { result.algorithm="exterior-point_Powell_modified";}
-            else if(opt.algo == BFGS)
-            {result.algorithm="exterior-point_BFGS";}
+            if(opt.algo==BFGS)
+                result.warning="BFGS is not suitable for constraint problems, changed with Powell_modified.";
             result.ite_times=ite;
             result.x=x_;
             result.fval=f(x_);
@@ -157,10 +155,8 @@ x_fval sci_arma::fmincon(const obj_fun &f, vec &x0, mat &A, mat &b, mat& Aeq, ma
         { result_= powell(g, x_, opt);}
         else if(opt.algo == Rosenbrock)
         { result_= rosenbrock(g, x_, opt);}
-        else if(opt.algo == Powell_modified ||opt.algo == preset)
+        else if(opt.algo == Powell_modified ||opt.algo == preset ||opt.algo == BFGS)
         { result_= powell_m(g, x_, opt);}
-        else if(opt.algo == BFGS)
-        { result_= bfgs(g, x_, opt);}
         x_=result_.x;
         if(P(x_) <= eps || ite>=opt.max_ite)
         {
@@ -174,10 +170,10 @@ x_fval sci_arma::fmincon(const obj_fun &f, vec &x0, mat &A, mat &b, mat& Aeq, ma
             { result.algorithm="exterior-point_Powell";}
             else if(opt.algo == Rosenbrock)
             { result.algorithm="exterior-point_Rosenbrock";}
-            else if(opt.algo == Powell_modified ||opt.algo == preset)
+            else if(opt.algo == Powell_modified ||opt.algo == preset ||opt.algo == BFGS)
             { result.algorithm="exterior-point_Powell_modified";}
-            else if(opt.algo == BFGS)
-            {result.algorithm="exterior-point_BFGS";}
+            if(opt.algo==BFGS)
+                result.warning="BFGS is not suitable for constraint problems, changed with Powell_modified.";
             result.ite_times=ite;
             result.x=x_;
             result.fval=f(x_);
@@ -266,10 +262,8 @@ x_fval sci_arma::fmincon(const obj_fun &f, vec &x0, mat &A, mat &b, mat &Aeq, ma
         { result_= powell(g, x_, opt);}
         else if(opt.algo == Rosenbrock)
         { result_= rosenbrock(g, x_, opt);}
-        else if(opt.algo == Powell_modified ||opt.algo == preset)
+        else if(opt.algo == Powell_modified ||opt.algo == preset ||opt.algo == BFGS)
         { result_= powell_m(g, x_, opt);}
-        else if(opt.algo == BFGS)
-        { result_= bfgs(g, x_, opt);}
         x_=result_.x;
         if(P(x_) <= eps || ite>=opt.max_ite)
         {
@@ -283,10 +277,12 @@ x_fval sci_arma::fmincon(const obj_fun &f, vec &x0, mat &A, mat &b, mat &Aeq, ma
             { result.algorithm="exterior-point_Powell";}
             else if(opt.algo == Rosenbrock)
             { result.algorithm="exterior-point_Rosenbrock";}
-            else if(opt.algo == Powell_modified ||opt.algo == preset)
+            else if(opt.algo == Powell_modified ||opt.algo == preset ||opt.algo == BFGS)
             { result.algorithm="exterior-point_Powell_modified";}
             else if(opt.algo == BFGS)
             {result.algorithm="exterior-point_BFGS";}
+            if(opt.algo==BFGS)
+                result.warning="BFGS is not suitable for constraint problems, changed with Powell_modified.";
             result.ite_times=ite;
             result.x=x_;
             result.fval=f(x_);
