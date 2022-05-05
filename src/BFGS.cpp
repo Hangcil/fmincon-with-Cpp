@@ -104,6 +104,12 @@ x_fval sci_arma::bfgs(const obj_fun &f, vec &x0, const options& opt)
             vec g1;
             if(!opt.enable_self_defined_gra) { g1= gra(f, x11);}
             else{g1= opt.gra(x11);}
+            if(norm(g1-g)<0.000001* norm(g))
+            {
+                auto result= powell_m(f,x0,opt);
+                result.warning="non-decreasing direction occurred. BFGS failed.";
+                return result;
+            }
             if(norm(g1)<= eps || ite>=opt.max_ite)
             {
                 x_fval result;
