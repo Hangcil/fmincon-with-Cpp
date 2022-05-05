@@ -65,6 +65,9 @@ x_fval sci_arma::powell_m(const obj_fun &f, vec &x0, const options& opt)
                 x_fval result;
                 result.x=x1;
                 result.fval=f(x1);
+                result.algorithm="Powell_modified";
+                result.ite_times=ite;
+                result.x=x_kn;
                 return result;
             }else
             {
