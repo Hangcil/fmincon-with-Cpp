@@ -77,7 +77,7 @@ x_fval sci_arma::bfgs(const obj_fun &f, vec &x0, const options& opt)
         std::terminate();
     }
     vec x1=x0, x11=x0;
-    double eps=0.00001;
+    double eps=opt.tolerance<=0.0001 ? opt.tolerance:0.0001;
     int ite=0;
     while (true)
     {

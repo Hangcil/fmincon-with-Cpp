@@ -17,7 +17,7 @@ x_fval sci_arma::powell_m(const obj_fun &f, vec &x0, const options& opt)
     for(auto i=0;i<nvar;i++){
         d[i]=E.col(i);
     }
-    double eps=0.000001;
+    double eps=opt.tolerance<=0.0001 ? opt.tolerance:0.0001;
     long long ite=0;
     while (true)
     {

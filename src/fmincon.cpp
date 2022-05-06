@@ -28,7 +28,7 @@ x_fval sci_arma::fmincon(const obj_fun &f, vec &x0, mat &A, mat &b, const option
         std::cerr<<e.what()<<std::endl;
         std::terminate();
     }
-    double delta=1, C=1.1, eps=0.00001;
+    double delta=1, C=1.1, eps=opt.tolerance<=0.0001 ? opt.tolerance:0.0001;
     long long ite=0;
     auto x_=x0;
     auto P=[&](vec& x)->double {
@@ -55,6 +55,8 @@ x_fval sci_arma::fmincon(const obj_fun &f, vec &x0, mat &A, mat &b, const option
         { result_= rosenbrock(g, x_, opt);}
         else if(opt.algo == Powell_modified ||opt.algo == preset ||opt.algo == BFGS)
         { result_= powell_m(g, x_,opt);}
+        else if(opt.algo == Rosenbrock)
+        { result_= rosenbrock(g, x_, opt);}
         x_=result_.x;
         if(P(x_) <= eps || ite>=opt.max_ite)
         {
@@ -71,7 +73,7 @@ x_fval sci_arma::fmincon(const obj_fun &f, vec &x0, mat &A, mat &b, const option
             else if(opt.algo == Powell_modified ||opt.algo == preset ||opt.algo == BFGS)
             { result.algorithm="exterior-point_Powell_modified";}
             if(opt.algo==BFGS)
-                result.warning="BFGS is not suitable for constraint problems, changed with Powell_modified.";
+                result.warning="BFGS is slow for constraint problems, changed with Powell_modified.";
             result.ite_times=ite;
             result.x=x_;
             result.fval=f(x_);
@@ -125,7 +127,7 @@ x_fval sci_arma::fmincon(const obj_fun &f, vec &x0, mat &A, mat &b, mat& Aeq, ma
         std::cerr<<e.what()<<std::endl;
         std::terminate();
     }
-    double delta=1, C=1.1, eps=0.00001;
+    double delta=1, C=1.1, eps=opt.tolerance<=0.0001 ? opt.tolerance:0.0001;
     long long ite=0;
     auto x_=x0;
     auto P=[&](vec& x)->double {
@@ -173,7 +175,7 @@ x_fval sci_arma::fmincon(const obj_fun &f, vec &x0, mat &A, mat &b, mat& Aeq, ma
             else if(opt.algo == Powell_modified ||opt.algo == preset ||opt.algo == BFGS)
             { result.algorithm="exterior-point_Powell_modified";}
             if(opt.algo==BFGS)
-                result.warning="BFGS is not suitable for constraint problems, changed with Powell_modified.";
+                result.warning="BFGS is slow for constraint problems, changed with Powell_modified.";
             result.ite_times=ite;
             result.x=x_;
             result.fval=f(x_);
@@ -226,7 +228,7 @@ x_fval sci_arma::fmincon(const obj_fun &f, vec &x0, mat &A, mat &b, mat &Aeq, ma
         std::cerr<<e.what()<<std::endl;
         std::terminate();
     }
-    double delta=1, C=1.1, eps=0.00001;
+    double delta=1, C=1.1, eps=opt.tolerance<=0.0001 ? opt.tolerance:0.0001;
     long long ite=0;
     auto x_=x0;
     auto P=[&](vec& x)->double {
@@ -282,7 +284,7 @@ x_fval sci_arma::fmincon(const obj_fun &f, vec &x0, mat &A, mat &b, mat &Aeq, ma
             else if(opt.algo == BFGS)
             {result.algorithm="exterior-point_BFGS";}
             if(opt.algo==BFGS)
-                result.warning="BFGS is not suitable for constraint problems, changed with Powell_modified.";
+                result.warning="BFGS is slow for constraint problems, changed with Powell_modified.";
             result.ite_times=ite;
             result.x=x_;
             result.fval=f(x_);

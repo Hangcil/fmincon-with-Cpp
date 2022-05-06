@@ -18,7 +18,7 @@ x_fval sci_arma::rosenbrock(const obj_fun& f, vec& x0, const options& opt)
         d[i]=E.col(i);
     }
     int j=1;
-    double alpha=1.05, beta=-0.95, eps=0.00001;
+    double alpha=1.05, beta=-0.95, eps=opt.tolerance<=0.0001 ? opt.tolerance:0.0001;
     vec y1=x, y=y1, delta0= ones(nvar,1),
     lambda= zeros(nvar,1), delta=delta0;
     long long ite=0;

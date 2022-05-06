@@ -27,7 +27,7 @@ std::vector<vec> sci_arma::include_min(const obj_fun &f, vec &x0, vec &dir)
             continue;
         }else
         {
-            if(k==1 && ite<100)
+            if(k==1 && ite<50)
             {
                 h*=-1;
                 x2=x4;
@@ -61,7 +61,7 @@ vec sci_arma::line_search(const obj_fun &f, vec &a, vec &b)
     while (true)
     {
         ite++;
-        if(b1-a1<=l || ite>=100)
+        if(b1-a1<=l || ite>=50)
         {
             vec result=(1-(b1+a1)/2)*a+(b1+a1)/2*b;
             return result;
@@ -103,7 +103,7 @@ x_fval sci_arma::powell(const obj_fun &f, vec &x0, const options& opt)
     for(auto i=0;i<nvar;i++){
         d[i]=E.col(i);
     }
-    double eps=0.00001;
+    double eps=opt.tolerance<=0.0001 ? opt.tolerance:0.0001;
     long long ite=0;
     while(true)
     {
