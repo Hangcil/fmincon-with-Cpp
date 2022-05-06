@@ -52,6 +52,7 @@ public:
     long long max_ite=1000;
     bool enable_self_defined_gra= false;
     gradient gra;
+    double tolerance=1.0/double(max_ite)/1000;
 };
 
 
