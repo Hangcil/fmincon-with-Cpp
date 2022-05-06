@@ -2,9 +2,9 @@
 This repository is based on C++ numerical lib [armadillo](http://arma.sourceforge.net/), and implements one of the frequently used functions ```fmincon()```.
 It can be a choosable alternative for part of optimization needs.
 # algorithms
-1. BFGS (default when constraint is empty)
-2. Powell
-3. Powell-modified (Sargent form) 
+1. BFGS (default when the constraint is empty)
+2. Powell 
+3. modified Powell in Sargent form (default when BFGS fails)
 4. Rosenbrock
 5. exterior-point (default when there are constraints)
 # Examples:
