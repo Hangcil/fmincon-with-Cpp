@@ -52,6 +52,8 @@ int main() {
     opt.algo=Powell;
     auto result4= sci_arma::fmincon(f, x0, A, b, Aeq, beq, c, opt);
 
+    //you can also define the upper and lower bounds in fmincon(), but that's not manifested here
+    
     //output
     std::cout<<result1;
     std::cout<<endl;
