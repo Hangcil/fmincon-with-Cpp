@@ -28,7 +28,7 @@ int main() {
 
     //define inequality linear constraints Ax<=b
     mat A={{1,1,1,0},{2,3,4,5}};
-    vec b={4,15};
+    vec b={3,15};
 
     //optimization with inequality linear constraints
     auto result2= sci_arma::fmincon(f, x0, A, b);
