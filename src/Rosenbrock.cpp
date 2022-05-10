@@ -13,7 +13,8 @@ x_fval sci_arma::rosenbrock(const obj_fun& f, vec& x0, const options& opt)
         std::terminate();
     }
     mat E= eye(nvar,nvar);
-    vec x=x0, d[nvar];
+    vec x = x0;
+    auto d=new vec[nvar];
     for(auto i=0;i<nvar;i++){
         d[i]=E.col(i);
     }
@@ -71,7 +72,7 @@ x_fval sci_arma::rosenbrock(const obj_fun& f, vec& x0, const options& opt)
                     else
                     {
                         x=y;
-                        vec p[nvar],q[nvar];
+                        auto p=new vec[nvar],q=new vec[nvar];
                         for(auto i=0;i<nvar;i++)
                         {
                             if(lambda[i]==0)

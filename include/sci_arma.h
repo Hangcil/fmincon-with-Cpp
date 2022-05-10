@@ -78,13 +78,21 @@ protected:
 public:
     //the followings are fmincon()-s;
     static x_fval fmincon(const obj_fun& f, vec& x0, const options& opt);
+    static x_fval fmincon(const obj_fun& f, vec& x0, vec& lb, vec& ub, const options& opt);
     static x_fval fmincon(const obj_fun& f, vec& x0, mat& A, mat& b, const options& opt);
+    static x_fval fmincon(const obj_fun& f, vec& x0, mat& A, mat& b, vec& lb, vec& ub, const options& opt);
     static x_fval fmincon(const obj_fun& f, vec& x0, mat& A, mat& b, mat& Aeq, mat& beq, const options& opt);
+    static x_fval fmincon(const obj_fun& f, vec& x0, mat& A, mat& b, mat& Aeq, mat& beq, vec& lb, vec& ub, const options& opt);
     static x_fval fmincon(const obj_fun& f, vec& x0, mat& A, mat& b, mat& Aeq, mat& beq, const non_linear_con& c, const options& opt);
+    static x_fval fmincon(const obj_fun& f, vec& x0, mat& A, mat& b, mat& Aeq, mat& beq, vec& lb, vec& ub, const non_linear_con& c, const options& opt);//
     static x_fval fmincon(const obj_fun& f, vec& x0);
+    static x_fval fmincon(const obj_fun& f, vec& x0, vec& lb, vec& ub);
     static x_fval fmincon(const obj_fun& f, vec& x0, mat& A, mat& b);
+    static x_fval fmincon(const obj_fun& f, vec& x0, mat& A, mat& b, vec& lb, vec& ub);
     static x_fval fmincon(const obj_fun& f, vec& x0, mat& A, mat& b, mat& Aeq, mat& beq);
+    static x_fval fmincon(const obj_fun& f, vec& x0, mat& A, mat& b, mat& Aeq, mat& beq, vec& lb, vec& ub);
     static x_fval fmincon(const obj_fun& f, vec& x0, mat& A, mat& b, mat& Aeq, mat& beq, const non_linear_con& c);
+    static x_fval fmincon(const obj_fun& f, vec& x0, mat& A, mat& b, mat& Aeq, mat& beq, vec& lb, vec& ub, const non_linear_con& c);
 };
 
 inline std::ostream& operator<< (std::ostream& out, x_fval& result)

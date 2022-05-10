@@ -13,7 +13,8 @@ x_fval sci_arma::powell_m(const obj_fun &f, vec &x0, const options& opt)
         std::terminate();
     }
     mat E= eye(nvar,nvar);
-    vec x1=x0, d[nvar];
+    vec x1 = x0;
+    auto d=new vec[nvar];
     for(auto i=0;i<nvar;i++){
         d[i]=E.col(i);
     }
