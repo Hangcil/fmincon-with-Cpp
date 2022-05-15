@@ -6,7 +6,8 @@ It can be a choosable alternative for part of optimization needs.
 2. Powell 
 3. modified Powell in Sargent form (default when BFGS fails)
 4. Rosenbrock
-5. exterior-point (default when there are constraints)
+5. mutiplier (used with other methods above when there are constraints)
+6. exterior-point (legacy)
 # Examples:
 ## when the gradient is not given or unsolvable
 ```c++
