@@ -12,10 +12,11 @@ include_directories(C:/lib/Cxx/armadillo-10.8.2/include/ ./include)
 link_directories(C:/lib/Cxx/armadillo-10.8.2/examples/lib_win64/)
 
 
-add_library(sci src/Rosenbrock.cpp src/Powell.cpp src/Powell.cpp src/Powell_modified.cpp src/BFGS.cpp src/fmincon.cpp)
+add_library(optim src/fmincon/Rosenbrock.cpp src/fmincon/Powell.cpp src/fmincon/Powell.cpp src/fmincon/Powell_modified.cpp
+        src/fmincon/BFGS.cpp src/fmincon/fmincon.cpp)
 add_executable(sci_arma example_without_gra.cpp)
 
 #link libraries
 #on windows, to avoid link errors, try place libopenblas.dll and your output '.exe' in the same folder
-target_link_libraries(sci_arma libopenblas.lib sci)
+target_link_libraries(sci_arma libopenblas.lib optim)
 
