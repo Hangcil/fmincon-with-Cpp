@@ -6,12 +6,13 @@
 #include <algorithm>
 #include <vector>
 #include <string>
+#include <cmath>
 using namespace arma;
 
 
 //defines special functions needed when optimizing
 using obj_fun=std::function<double(vec&)>;
-using non_linear_con=std::function<vec(vec&)>;
+using nonl_con=std::function<vec(vec&)>; //non-linear-conditions
 using gradient=std::function<vec(vec&)>;
 
 
@@ -27,7 +28,6 @@ public:
     long long ite_times=0;
     friend std::ostream& operator<< (std::ostream& out, x_fval& result);
 };
-
 
 //defines algorithms
 //default algorithms:
@@ -74,6 +74,9 @@ protected:
     static double line_search_imprecise(const obj_fun& f, const gradient& g, vec& x0, vec& dir);
     static x_fval bfgs(const obj_fun& f, vec& x0, const options& opt);
 
+    //interior-point method (for linear programming)
+    static x_fval karmarkar(vec& x0, vec&f, mat& A, vec& b, const options& opt);
+
 
 public:
     //the followings are fmincon()-s;
@@ -83,16 +86,16 @@ public:
     static x_fval fmincon(const obj_fun& f, vec& x0, mat& A, mat& b, vec& lb, vec& ub, const options& opt);
     static x_fval fmincon(const obj_fun& f, vec& x0, mat& A, mat& b, mat& Aeq, mat& beq, const options& opt);
     static x_fval fmincon(const obj_fun& f, vec& x0, mat& A, mat& b, mat& Aeq, mat& beq, vec& lb, vec& ub, const options& opt);
-    static x_fval fmincon(const obj_fun& f, vec& x0, mat& A, mat& b, mat& Aeq, mat& beq, const non_linear_con& c, const options& opt);
-    static x_fval fmincon(const obj_fun& f, vec& x0, mat& A, mat& b, mat& Aeq, mat& beq, vec& lb, vec& ub, const non_linear_con& c, const options& opt);//
+    static x_fval fmincon(const obj_fun& f, vec& x0, mat& A, mat& b, mat& Aeq, mat& beq, const nonl_con& c, const options& opt);
+    static x_fval fmincon(const obj_fun& f, vec& x0, mat& A, mat& b, mat& Aeq, mat& beq, vec& lb, vec& ub, const nonl_con& c, const options& opt);//
     static x_fval fmincon(const obj_fun& f, vec& x0);
     static x_fval fmincon(const obj_fun& f, vec& x0, vec& lb, vec& ub);
     static x_fval fmincon(const obj_fun& f, vec& x0, mat& A, mat& b);
     static x_fval fmincon(const obj_fun& f, vec& x0, mat& A, mat& b, vec& lb, vec& ub);
     static x_fval fmincon(const obj_fun& f, vec& x0, mat& A, mat& b, mat& Aeq, mat& beq);
     static x_fval fmincon(const obj_fun& f, vec& x0, mat& A, mat& b, mat& Aeq, mat& beq, vec& lb, vec& ub);
-    static x_fval fmincon(const obj_fun& f, vec& x0, mat& A, mat& b, mat& Aeq, mat& beq, const non_linear_con& c);
-    static x_fval fmincon(const obj_fun& f, vec& x0, mat& A, mat& b, mat& Aeq, mat& beq, vec& lb, vec& ub, const non_linear_con& c);
+    static x_fval fmincon(const obj_fun& f, vec& x0, mat& A, mat& b, mat& Aeq, mat& beq, const nonl_con& c);
+    static x_fval fmincon(const obj_fun& f, vec& x0, mat& A, mat& b, mat& Aeq, mat& beq, vec& lb, vec& ub, const nonl_con& c);
 };
 
 inline std::ostream& operator<< (std::ostream& out, x_fval& result)
