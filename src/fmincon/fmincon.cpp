@@ -206,6 +206,49 @@ x_fval sci_arma::fmincon(const obj_fun& f, vec& x0, mat& A, mat& b, vec& lb, vec
 }
 
 
+x_fval sci_arma::fmincon(const obj_fun& f, vec& x0, vec& lb, vec& ub, const nonl_con& c, const options& opt)
+{
+	auto nvar = x0.n_rows;
+	umat c1 = x0 <= ub;
+	int flag = 0;
+	for (auto i = 0; i < nvar; i++)
+	{
+		if (c1(i, 0) == 0)
+			flag++;
+	}
+	try {
+		if (flag > 0)
+			throw std::logic_error("ERROR: fmincon(): x0 exceeds the upper bound.");
+	}
+	catch (std::exception& e) {
+		std::cerr << e.what() << std::endl;
+		std::terminate();
+	}
+	c1 = x0 >= lb;
+	flag = 0;
+	for (auto i = 0; i < nvar; i++)
+	{
+		if (c1(i, 0) == 0)
+			flag++;
+	}
+	try {
+		if (flag > 0)
+			throw std::logic_error("ERROR: fmincon(): x0 falls beneath the lower bound.");
+	}
+	catch (std::exception& e) {
+		std::cerr << e.what() << std::endl;
+		std::terminate();
+	}
+	mat E1 = eye(nvar, nvar);
+	mat E2 = -E1;
+	vec b = join_cols(-lb, ub);
+	mat A = join_cols(E2, E1);
+	mat Aeq = zeros(1, nvar);
+	vec beq = { 0 };
+	return fmincon(f, x0, A, b, Aeq, beq, c, opt);
+}
+
+
 x_fval sci_arma::fmincon(const obj_fun& f, vec& x0, mat& A, mat& b, mat& Aeq, mat& beq, const options& opt)
 {
 	try {
@@ -632,6 +675,13 @@ x_fval sci_arma::fmincon(const obj_fun& f, vec& x0, mat& A, mat& b)
 {
 	options opt;
 	return fmincon(f, x0, A, b, opt);
+}
+
+
+x_fval sci_arma::fmincon(const obj_fun& f, vec& x0, vec& lb, vec& ub, const nonl_con& c)
+{
+	options opt;
+	return fmincon(f, x0, lb, ub, c, opt);
 }
 
 
