@@ -239,6 +239,22 @@ x_fval sci_arma::fmincon(const obj_fun& f, vec& x0, vec& lb, vec& ub, const nonl
 		std::cerr << e.what() << std::endl;
 		std::terminate();
 	}
+	vec cx = c(x0);
+	c1 = cx > 0;
+	flag = 0;
+	for (auto i = 0; i < cx.n_rows; i++)
+	{
+		if (c1(i, 0) == 1)
+			flag++;
+	}
+	try {
+		if (flag > 0)
+			throw std::logic_error("ERROR: fmincon(): x0 does not meet inequality non-linear constraints.");
+	}
+	catch (std::exception& e) {
+		std::cerr << e.what() << std::endl;
+		std::terminate();
+	}
 	mat E1 = eye(nvar, nvar);
 	mat E2 = -E1;
 	vec b = join_cols(-lb, ub);
@@ -475,6 +491,22 @@ x_fval sci_arma::fmincon(const obj_fun& f, vec& x0, mat& A, mat& b, mat& Aeq, ma
 		std::cerr << e.what() << std::endl;
 		std::terminate();
 	}
+	vec cx = c(x0);
+	com = cx > 0;
+	flag = 0;
+	for (auto i = 0; i < cx.n_rows; i++)
+	{
+		if (com(i, 0) == 1)
+			flag++;
+	}
+	try {
+		if (flag > 0)
+			throw std::logic_error("ERROR: fmincon(): x0 does not meet inequality non-linear constraints.");
+	}
+	catch (std::exception& e) {
+		std::cerr << e.what() << std::endl;
+		std::terminate();
+	}
 	double alpha = 1.2, delta = 2, beta = 0.5, eps = opt.tolerance <= 0.0001 ? opt.tolerance : 0.0001;
 	long long ite = 0;
 	auto x = x0;
@@ -621,6 +653,22 @@ x_fval sci_arma::fmincon(const obj_fun& f, vec& x0, mat& A, mat& b, mat& Aeq, ma
 	try {
 		if (flag > 0)
 			throw std::logic_error("ERROR: fmincon(): x0 falls beneath the lower bound.");
+	}
+	catch (std::exception& e) {
+		std::cerr << e.what() << std::endl;
+		std::terminate();
+	}
+	vec cx = c(x0);
+	c1 = cx > 0;
+	flag = 0;
+	for (auto i = 0; i < cx.n_rows; i++)
+	{
+		if (c1(i, 0) == 1)
+			flag++;
+	}
+	try {
+		if (flag > 0)
+			throw std::logic_error("ERROR: fmincon(): x0 does not meet inequality non-linear constraints.");
 	}
 	catch (std::exception& e) {
 		std::cerr << e.what() << std::endl;
