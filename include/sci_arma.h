@@ -74,8 +74,6 @@ protected:
     static double line_search_imprecise(const obj_fun& f, const gradient& g, vec& x0, vec& dir);
     static x_fval bfgs(const obj_fun& f, vec& x0, const options& opt);
 
-    //interior-point method (for linear programming)
-    static x_fval karmarkar(vec& x0, vec&f, mat& A, vec& b, const options& opt);
 
 
 public:
