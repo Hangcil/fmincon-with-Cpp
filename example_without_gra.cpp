@@ -31,7 +31,7 @@ int main() {
 
 	//define non-linear inequality constraints c(x)<=0
 	auto c = [](vec& x)->vec {
-		vec temp = { x(0) * x(0) + x(1) * x(1) + x(2) * x(2) + x(3) * x(3) - 3 };
+		vec temp = { 25*x(0) * x(0) + x(1) * x(1) + x(2) * x(2) + x(3) * x(3) - 50 * x(3) };
 		return temp;
 	};
 
