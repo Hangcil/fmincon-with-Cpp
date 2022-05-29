@@ -1,16 +1,15 @@
 #include "sci_arma.h"
-#include "sci_arma.h"
 
-
-vec sci_arma::gra(const obj_fun& f, vec& pos)
-//numerical gradient calculation
+vec sci_arma::gra(const obj_fun &f, vec &pos)
+// numerical gradient calculation
 {
 	double alpha = 0.9, eps = 0.0001;
 	auto nvar = pos.n_rows;
 	vec result = zeros(nvar, 1);
 	for (auto i = 0; i < nvar; i++)
 	{
-		auto par = [&](double x)->double {
+		auto par = [&](double x) -> double
+		{
 			vec x1 = pos;
 			x1(i) += x;
 			return f(x1);
@@ -22,12 +21,14 @@ vec sci_arma::gra(const obj_fun& f, vec& pos)
 		{
 			ite++;
 			h *= alpha;
-			double p_ = (par(h) - par(-h)) / 2 / h;
-			if (std::abs(p - p_) < eps || ite >= 50) {
+			double p_ = (-par(h / 2) + 8 * par(h / 4) - 8 * par(-h / 4) + par(-h / 2)) / 3 / h;
+			if (std::abs(p - p_) <= eps || ite >= 50)
+			{
 				result(i) = p_;
 				break;
 			}
-			else {
+			else
+			{
 				p = p_;
 			}
 		}
@@ -35,11 +36,9 @@ vec sci_arma::gra(const obj_fun& f, vec& pos)
 	return result;
 }
 
-
-
-double sci_arma::line_search_imprecise(const obj_fun& f, const gradient& g, vec& x0, vec& dir)
-//Wolfe-Powell's law for imprecise line search
-//require self-defined gradient
+double sci_arma::line_search_imprecise(const obj_fun &f, const gradient &g, vec &x0, vec &dir)
+// Wolfe-Powell's law for imprecise line search
+// require self-defined gradient
 {
 	double lambda = 1, rho = 0.1, delta = 0.2, alpha = 1.5, beta = 0.5;
 	long long ite = 0;
@@ -67,21 +66,22 @@ double sci_arma::line_search_imprecise(const obj_fun& f, const gradient& g, vec&
 	}
 }
 
-
-x_fval sci_arma::bfgs(const obj_fun& f, vec& x0, const options& opt)
+x_fval sci_arma::bfgs(const obj_fun &f, vec &x0, const options &opt)
 {
 	auto nvar = x0.n_rows;
-	try {
+	try
+	{
 		if ((int)x0.n_cols != 1)
 			throw std::logic_error("ERROR: fmincon(): x0 must be a column vector.");
 	}
-	catch (std::exception& e) {
+	catch (std::exception &e)
+	{
 		std::cerr << e.what() << std::endl;
 		std::terminate();
 	}
-	vec x1 = x0, x11 = x0;
+	vec x1 = x0, x11 = x0, x00 = x0;
 	double eps = opt.tolerance <= 0.0001 ? opt.tolerance : 0.0001;
-	int ite = 0;
+	long long ite = 0;
 	while (true)
 	{
 		ite++;
@@ -107,26 +107,35 @@ x_fval sci_arma::bfgs(const obj_fun& f, vec& x0, const options& opt)
 				vec temp = solve(d, temp_);
 				lambda = std::abs(sum(temp));
 			}
-			else {
+			else
+			{
 				lambda = line_search_imprecise(f, opt.gra, x1, d);
 			}
 			x11 = x1 + lambda * d;
 			vec g1;
-			if (!opt.enable_self_defined_gra) { g1 = gra(f, x11); }
-			else { g1 = opt.gra(x11); }
+			if (!opt.enable_self_defined_gra)
+			{
+				g1 = gra(f, x11);
+			}
+			else
+			{
+				g1 = opt.gra(x11);
+			}
 			if (norm(g1 - g) < 0.000001 * norm(g))
 			{
 				auto result = powell_m(f, x0, opt);
 				result.warning = "non-decreasing direction occurred. BFGS failed.";
 				return result;
 			}
-			if (norm(g1) <= eps || ite >= opt.max_ite)
+			if (norm(x1 - x11) <= 0.001 * eps * norm(x1) || ite >= opt.max_ite || norm(g1) <= eps)
 			{
 				x_fval result;
-				if (norm(g1) > eps) {
+				if (norm(g1) > eps && norm(x1 - x11) > 0.001 * eps * norm(x1))
+				{
 					result.if_forced_terminated = true;
 				}
-				else {
+				else
+				{
 					result.if_forced_terminated = false;
 				}
 				result.algorithm = "BFGS";
@@ -146,8 +155,7 @@ x_fval sci_arma::bfgs(const obj_fun& f, vec& x0, const options& opt)
 			}
 			x1 = x11;
 		}
+		x00 = x1;
 		x1 = x11;
 	}
 }
-
-
