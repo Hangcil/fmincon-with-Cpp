@@ -103,15 +103,13 @@ x_fval sci_arma::bfgs(const obj_fun &f, vec &x0, const options &opt)
 			{
 				auto range = include_min(f, x1, d);
 				auto x_kn_1 = line_search(f, range[0], range[1]);
-				vec temp_ = x_kn_1 - x1;
-				vec temp = solve(d, temp_);
-				lambda = std::abs(sum(temp));
+				x11 = x_kn_1;
 			}
 			else
 			{
 				lambda = line_search_imprecise(f, opt.gra, x1, d);
+				x11 = x1 + lambda * d;
 			}
-			x11 = x1 + lambda * d;
 			vec g1;
 			if (!opt.enable_self_defined_gra)
 			{
